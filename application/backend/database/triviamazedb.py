@@ -6,6 +6,10 @@ class TriviaMazeDB:
 
     @staticmethod
     def create_connection():
+        """ create a database connection to the SQLite database
+            :param:
+            :return: Connection object or None
+        """
         my_conn = None
         try:
             my_conn = sqlite3.connect("TriviaDB.db")
@@ -15,6 +19,11 @@ class TriviaMazeDB:
 
     @staticmethod
     def select_question_answers(db_connection, question_no):
+        """ Select question and its answers from the SQLite database
+                    :param 1: database connect
+                    :param 2: question number from 1 to 40
+                    :return: All records from database
+        """
         try:
             if 0 < question_no <= 40:
                 cur = db_connection.cursor()

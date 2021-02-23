@@ -1,6 +1,6 @@
 import sqlite3
 from sqlite3 import Error
-from question import Question
+from question.question import Question
 
 class TriviaMazeDB:
 

@@ -39,19 +39,6 @@ class TriviaMazeGame:
     #     # the cheat mode was enable or disabled here.
     #     return
 
-    def player_move(self):
-        pass
-    def player_answer_question(self):
-        pass
-    def __player_enter_room(self):
-        pass
-    def __player_question(self):
-        pass
-    def __get_questions(self):
-        # Query database to get a list
-        # of random questions of length
-        # room count of maze.
-        pass
 
 if __name__ == '__main__':
     test_game = TriviaMazeGame('Hello World', 4, 4, [1, 2, 3])

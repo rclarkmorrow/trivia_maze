@@ -1,4 +1,4 @@
-from player import Player
+from player.player import Player
 from random import choice
 
 DEFAULT_NAMES = ['Tom', 'Player']

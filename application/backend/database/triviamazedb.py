@@ -1,6 +1,6 @@
 import sqlite3
 from sqlite3 import Error
-
+from question import Question
 
 class TriviaMazeDB:
 
@@ -18,42 +18,104 @@ class TriviaMazeDB:
         return my_conn
 
     @staticmethod
-    def select_question_answers(db_connection, question_no):
-        """ Select question and its answers from the SQLite database
-                    :param 1: database connect
-                    :param 2: question number from 1 to 40
-                    :return: All records from database
+    def __get_random(db_connection, limit):
+        """
+          Method gets a random selection of questions from the trivia
+          question database and returns them as a list of tuples.
+          :param: db_connection
+                  the database connection to use
+          :param: limit
+                  the maximum number of questions to return
         """
         try:
-            if 0 < question_no <= 40:
-                cur = db_connection.cursor()
-                sql = ''' SELECT
-                          q.Description as question
-                          ,a.description as answer
-                          ,a.isCorrect
-                          FROM Questions as q 
-                          LEFT JOIN Answers as a ON q.Question_ID = a.Question_ID 
-                          WHERE q.Question_ID = ?
-                     '''
-                cur.execute(sql, (question_no,))
-                my_records = cur.fetchall()
-                cur.close()
+            cur = db_connection.cursor()
 
-                return my_records
+            # Query language that grabs question description (the question)
+            # answer description (the answer) and is correct (boolean where
+            # 0 is a false answer and 1 is a correct answer) and limits the
+            # query results to a random selection of unique questions.
+            sql = ''' SELECT 
+                      q.Description,
+                      a.Description,
+                      a.isCorrect
+                      FROM 
+                      Questions as q,
+                      Answers as a
+                      WHERE q.Question_ID = a.Question_ID AND 
+                      q.Question_ID IN (
+                      SELECT
+                      q.Question_ID 
+                      FROM 
+                      Questions as q
+                      ORDER BY random()
+                      LIMIT ?
+                      )
+            '''
+
+            cur.execute(sql, (limit,))
+            my_records = cur.fetchall()
+            cur.close()
+
+            print(f'list {my_records}')
+
+            return my_records
 
         except sqlite3.Error as error:
-            print("Failed to read data from sqlite table", error)
+            print('Failed to read data from sqlite table', error)
+
         finally:
             if conn:
                 conn.close()
-                print("The SQLite connection is closed")
+                print('The SQLite connection is closed')
+
+    @staticmethod
+    def get_question_list(connection, question_count):
+        """
+          Method creates a list of Question instances of a specified
+          amount from a list of questions returned by a database call.
+        """
+        question_list = []
+        results = TriviaMazeDB.__get_random(connection, question_count)
+        # Format question variables.
+        current_question = results[0][0]
+        answer_list = []
+
+        # Loop through tuples in list of questions with a counter
+        # starting at 1..
+        for count, question in enumerate(results, 1):
+            # While the question is the same, append the answer list
+            # with a list of the answer and the boolean of whether it's
+            # correct.
+            if question[0] == current_question:
+                answer_list.append([question[1], question[2]])
+            # When the question changes, create a Question instance and
+            # append it to the list, and reset the question variables.
+            if question[0] != current_question:
+                question_list.append(Question(current_question, answer_list))
+                current_question = question[0]
+                answer_list = [[question[1], question[2]]]
+            # When the end of the list is reached, create a Question
+            # instance and append it to the list.
+            if count == len(results):
+                question_list.append(Question(current_question, answer_list))
+
+        # Return the list of Question instances.
+        return question_list
 
 
 if __name__ == "__main__":
+    # Simple smoke test to verify that a list of Question instances
+    # are returned and are correct.
     db = TriviaMazeDB
     conn = db.create_connection()
-    records = db.select_question_answers(conn, 1)
-    for row in records:
-        print("Question :", row[0])
-        print("Answer :", row[1])
-        print("IsCorrect :", row[2])
+    questions = db.get_question_list(conn, 3)
+    print(f'TYPE {type(questions)}')
+    print(f'LENGTH {len(questions)}')
+    print(f'QUESTIONS {questions},\n\n')
+    for question in questions:
+        print('*********QUESTION**************\n')
+        print(f'Object type: {type(question)}\n')
+        print(f'Object string:\n{question}\n')
+        print(f'Question.formatted: {question.formatted}\n')
+        print('*******************************\n\n')
+

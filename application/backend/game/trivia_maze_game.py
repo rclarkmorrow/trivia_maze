@@ -1,19 +1,20 @@
-# import the MazeFactory
-# import the PlayerFactory
-# import Question [maybe]
+# import the Maze class
+from player.player_factory import PlayerFactory
+from maze.maze import Maze
 
 class TriviaMazeGame:
     """
        The TriviaMazeGame class creates a Trivia Maze Game and tracks that
        game's current state so that it can saved to be played later.
     """
-    def __init__(self, player_name):
-        self.__maze = MazeFactory()
-        self.__player = PlayerFactory(player_name)
-        self.questions = self.__get_questions()  # Note: get the size of the maze from
-                                                 # self.__maze
-        self.__current_room = self.__maze.entrance_exit_pos[0]
+    def __init__(self, player_name, row_count, col_count, questions):
+        self.__maze = Maze(row_count, col_count)
+        self.__player = PlayerFactory.create_player(player_name)
+        self.__entrance = self.__maze.entrance_pos
+        self.__exit = self.__maze.exit_pos
+        self.__current_room = self.__entrance
         self.__cheat_mode = False
+        self.__questions = questions
 
     @property
     def maze(self):
@@ -28,7 +29,7 @@ class TriviaMazeGame:
     def cheat_mode(self):
         return self.__cheat_mode
     @cheat_mode.setter
-    def cheat_mode(self, toggle:Bool):
+    def cheat_mode(self, toggle: bool):
         self.__cheat_mode = toggle
 
     # def toggle_cheat(self):
@@ -52,3 +53,6 @@ class TriviaMazeGame:
         # room count of maze.
         pass
 
+if __name__ == '__main__':
+    test_game = TriviaMazeGame('Hello World', 4, 4, [1, 2, 3])
+    print(test_game.player.name)

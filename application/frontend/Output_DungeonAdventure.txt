@@ -1,0 +1,148 @@
+/Users/zhifeicheng/Documents/UW_SDE/Final-Project/venv/bin/python /Users/zhifeicheng/Documents/UW_SDE/Final-Project/DungeonAdventure.py
+Welcome to our Dungeon game!
+What's your name? Zhifei
+Please input an integer as the number of columns dungeon 6
+Please input an integer as the number of rows of the dungeon 6
+Where would you like to move next, please enter 'l' for left, 'r' for 'right', 'u' for 'up', 'd' for 'down', 'e' for exit, 's' for showing the whole dungeon map l
+You are moving out of the dungeon boundary.
+You can't move in this direction
+Where would you like to move next, please enter 'l' for left, 'r' for 'right', 'u' for 'up', 'd' for 'down', 'e' for exit, 's' for showing the whole dungeon map r
+====== Current room content is  ======
+Zhifei is in (3, 1)
+Name Zhifei, 
+Total Hit Points = 97, 
+Total Healing Potion = 0, 
+Total Vision Potion = 0, 
+List of Pillars Pieces Found = []
+Where would you like to move next, please enter 'l' for left, 'r' for 'right', 'u' for 'up', 'd' for 'down', 'e' for exit, 's' for showing the whole dungeon map r
+Dead end. No enter.
+You can't move in this direction
+Where would you like to move next, please enter 'l' for left, 'r' for 'right', 'u' for 'up', 'd' for 'down', 'e' for exit, 's' for showing the whole dungeon map d
+Dead end. No enter.
+You can't move in this direction
+Where would you like to move next, please enter 'l' for left, 'r' for 'right', 'u' for 'up', 'd' for 'down', 'e' for exit, 's' for showing the whole dungeon map u
+Dead end. No enter.
+You can't move in this direction
+Where would you like to move next, please enter 'l' for left, 'r' for 'right', 'u' for 'up', 'd' for 'down', 'e' for exit, 's' for showing the whole dungeon map l
+====== Current room content is i======
+Zhifei is in (3, 0)
+Name Zhifei, 
+Total Hit Points = 97, 
+Total Healing Potion = 0, 
+Total Vision Potion = 0, 
+List of Pillars Pieces Found = []
+Where would you like to move next, please enter 'l' for left, 'r' for 'right', 'u' for 'up', 'd' for 'down', 'e' for exit, 's' for showing the whole dungeon map d
+====== Current room content is E======
+Zhifei is in (4, 0)
+Name Zhifei, 
+Total Hit Points = 97, 
+Total Healing Potion = 0, 
+Total Vision Potion = 0, 
+List of Pillars Pieces Found = ['E']
+Where would you like to move next, please enter 'l' for left, 'r' for 'right', 'u' for 'up', 'd' for 'down', 'e' for exit, 's' for showing the whole dungeon map d
+====== Current room content is I======
+Zhifei is in (5, 0)
+Name Zhifei, 
+Total Hit Points = 97, 
+Total Healing Potion = 0, 
+Total Vision Potion = 0, 
+List of Pillars Pieces Found = ['E', 'I']
+Where would you like to move next, please enter 'l' for left, 'r' for 'right', 'u' for 'up', 'd' for 'down', 'e' for exit, 's' for showing the whole dungeon map d
+You are moving out of the dungeon boundary.
+You can't move in this direction
+Where would you like to move next, please enter 'l' for left, 'r' for 'right', 'u' for 'up', 'd' for 'down', 'e' for exit, 's' for showing the whole dungeon map l
+You are moving out of the dungeon boundary.
+You can't move in this direction
+Where would you like to move next, please enter 'l' for left, 'r' for 'right', 'u' for 'up', 'd' for 'down', 'e' for exit, 's' for showing the whole dungeon map r
+Dead end. No enter.
+You can't move in this direction
+Where would you like to move next, please enter 'l' for left, 'r' for 'right', 'u' for 'up', 'd' for 'down', 'e' for exit, 's' for showing the whole dungeon map u
+
+====== Current room content is  ======
+Zhifei is in (4, 0)
+Name Zhifei, 
+Total Hit Points = 97, 
+Total Healing Potion = 0, 
+Total Vision Potion = 0, 
+List of Pillars Pieces Found = ['E', 'I']
+Where would you like to move next, please enter 'l' for left, 'r' for 'right', 'u' for 'up', 'd' for 'down', 'e' for exit, 's' for showing the whole dungeon map u
+====== Current room content is i======
+Zhifei is in (3, 0)
+Name Zhifei, 
+Total Hit Points = 97, 
+Total Healing Potion = 0, 
+Total Vision Potion = 0, 
+List of Pillars Pieces Found = ['E', 'I']
+Where would you like to move next, please enter 'l' for left, 'r' for 'right', 'u' for 'up', 'd' for 'down', 'e' for exit, 's' for showing the whole dungeon map u
+Dead end. No enter.
+You can't move in this direction
+Where would you like to move next, please enter 'l' for left, 'r' for 'right', 'u' for 'up', 'd' for 'down', 'e' for exit, 's' for showing the whole dungeon map l
+You are moving out of the dungeon boundary.
+You can't move in this direction
+Where would you like to move next, please enter 'l' for left, 'r' for 'right', 'u' for 'up', 'd' for 'down', 'e' for exit, 's' for showing the whole dungeon map r
+====== Current room content is  ======
+Zhifei is in (3, 1)
+Name Zhifei, 
+Total Hit Points = 97, 
+Total Healing Potion = 0, 
+Total Vision Potion = 0, 
+List of Pillars Pieces Found = ['E', 'I']
+Where would you like to move next, please enter 'l' for left, 'r' for 'right', 'u' for 'up', 'd' for 'down', 'e' for exit, 's' for showing the whole dungeon map r
+Dead end. No enter.
+You can't move in this direction
+Where would you like to move next, please enter 'l' for left, 'r' for 'right', 'u' for 'up', 'd' for 'down', 'e' for exit, 's' for showing the whole dungeon map r
+Dead end. No enter.
+You can't move in this direction
+Where would you like to move next, please enter 'l' for left, 'r' for 'right', 'u' for 'up', 'd' for 'down', 'e' for exit, 's' for showing the whole dungeon map l
+====== Current room content is i======
+Zhifei is in (3, 0)
+Name Zhifei, 
+Total Hit Points = 97, 
+Total Healing Potion = 0, 
+Total Vision Potion = 0, 
+List of Pillars Pieces Found = ['E', 'I']
+Where would you like to move next, please enter 'l' for left, 'r' for 'right', 'u' for 'up', 'd' for 'down', 'e' for exit, 's' for showing the whole dungeon map u
+Dead end. No enter.
+You can't move in this direction
+Where would you like to move next, please enter 'l' for left, 'r' for 'right', 'u' for 'up', 'd' for 'down', 'e' for exit, 's' for showing the whole dungeon map d
+====== Current room content is  ======
+Zhifei is in (4, 0)
+Name Zhifei, 
+Total Hit Points = 97, 
+Total Healing Potion = 0, 
+Total Vision Potion = 0, 
+List of Pillars Pieces Found = ['E', 'I']
+Where would you like to move next, please enter 'l' for left, 'r' for 'right', 'u' for 'up', 'd' for 'down', 'e' for exit, 's' for showing the whole dungeon map s
+*** *** *** *** *** *** 
+* * * * | * * | * | |H* 
+*** *** *_* *** *_* *_* 
+*** *-* *-* *** *-* *** 
+*H* |V* |H* | | *V| *H* 
+*_* *** *** *** *** *_* 
+*** *-* *-* *** *** *-* 
+*V| * * |V| *V| |X| * * 
+*_* *_* *_* *_* *** *** 
+*** *-* *-* *** *-* *-* 
+|i| | * *X| | * *V* *H* 
+*-* *** *** *_* *_* *_* 
+*-* *-* *-* *** *-* *-* 
+* | |P| | | |H* *M| *M* 
+*-* *-* *** *** *** *** 
+*-* *-* *-* *-* *-* *-* 
+* * *O| *X| * * |M| * * 
+*** *-* *** *** *** *** 
+
+Please input a valid string among dict_keys(['l', 'r', 'u', 'd']), e , s
+Where would you like to move next, please enter 'l' for left, 'r' for 'right', 'u' for 'up', 'd' for 'down', 'e' for exit, 's' for showing the whole dungeon map r
+====== Current room content is P======
+Zhifei is in (4, 1)
+Name Zhifei, 
+Total Hit Points = 97, 
+Total Healing Potion = 0, 
+Total Vision Potion = 0, 
+List of Pillars Pieces Found = ['E', 'I', 'P']
+Where would you like to move next, please enter 'l' for left, 'r' for 'right', 'u' for 'up', 'd' for 'down', 'e' for exit, 's' for showing the whole dungeon map d
+====== Current room content is O======
+Congratulations! You have reach the destination!
+
+Process finished with exit code 0

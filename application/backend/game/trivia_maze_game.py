@@ -20,6 +20,8 @@ class TriviaMazeGame:
         self.__entrance = self.__maze.entrance_pos  # List coordinates
         self.__exit = self.__maze.exit_pos  # List coordinates
         self.__current_room = self.__entrance  # List coordinates
+        self.__visited_rooms = []  # List of lists of coordinates
+        self.__blocked_rooms = []  # List of lists of coordinates
         self.__cheat_mode = False
         self.__questions = questions
 
@@ -64,6 +66,16 @@ class TriviaMazeGame:
         self.__current_room = current_room
 
     @property
+    def visited_roomes(self):
+        """ Return visited rooms as property. """
+        return self.__visited_rooms
+
+    @property
+    def blocked_rooms(self):
+        """ Returns blocked rooms list as property. """
+        return self.__blocked_rooms
+
+    @property
     def cheat_mode(self):
         """ Return cheat most enabled status as property. """
         return self.__cheat_mode
@@ -77,6 +89,25 @@ class TriviaMazeGame:
     def questions(self):
         """ Return questions list as property. """
         return self.__questions
+
+    @property
+    def question(self):
+        """ Pop a question from list and return it. """
+        return self.__questions.pop().formatted
+
+    def enter_room(self, room):
+        self.__current_room = room
+        self.__visited_rooms.append(room)
+        # Get details of room -- needs to be implemented
+        # with conditional based on details (e.g. does the player
+        # pick something up?)
+        # room_details = self.maze[room[0][1]].enter()
+        room_details = 'not implemented'
+        return room_details
+
+    def block_room(self, room):
+        """ Adds a room to a list of blocked rooms. """
+        self.__blocked_rooms.append(room)
 
 
 if __name__ == '__main__':

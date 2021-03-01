@@ -12,12 +12,66 @@ class TriviaGameInterface:
 
     @property
     def game(self):
+        """ Returns game object as property. """
         return self.__game
 
+    @property
+    def maze_entrance(self):
+        return self.__game.entrance
+
+    @property
+    def maze_exit(self):
+        return self.__game.exit
+
+    @property
+    def player_position(self):
+        return self.__game.current_room
+
+    @property
+    def blocked_rooms(self):
+        return self.__game.blocked_rooms
+
+    def get_question(self):
+        """
+          Tries to get a question from the game object,
+          returns True with question if successful, False
+          with error message if not.
+          :Return: True, question
+          :Return: False, error
+        """
+        question = self.__game.question
+        if question:
+            return True, question
+        else:
+            return False, 'unable to retrieve question'
+
+    def enter_room(self, room):
+        success, payload = self.game.enter_room(room)
+        if success:
+            return success, payload
+        else:
+            return success, f'unable to enter room: {room}'
+
+
+    def block_room(self, room):
+        """
+          Requests a room to be blocked
+          :Param room: a list of room coordinates, e.g [1, 2]
+          :Return: True, room if successful.
+          :Return: False, room if unsuccessful.
+        """
+        success = self.__game.block_room(room)
+        if success:
+            return success, f'successfully blocked room: {room}'
+        else:
+            return success, f'unable to block room: {room}'
+
     def save(self, file_name):
+        """ Returns results of attempt to save file. """
         return self.__save(file_name)
 
     def load(self, file_name):
+        """ Returns results of attempt to load file. """
         success, result = self.__load(file_name)
         if success:
             self.__game = result
@@ -26,7 +80,10 @@ class TriviaGameInterface:
 
     def __save(self, file_name):
         """
-          Method pickels an object
+          Method pickles an object and saves to file.
+          :Param file_name: name of file to save game to
+          :Return: True, message if saved
+          :Return: False, error is not saved
         """
         try:
             with open(file_name, 'wb') as file:

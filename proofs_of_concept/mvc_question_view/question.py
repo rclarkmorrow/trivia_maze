@@ -66,8 +66,7 @@ if __name__ == '__main__':
     # Basic smoke test confirms a question can be created and that the
     # order of answers are randomized.
     question = 'What is your quest?'
-    answers = [['Green, no blue', 0], ['To seek the holy grail.', 1],
-               ['I don\'t know that', 0], ['African or English swallow?', 0]]
+    answers = [['blah1', 0], ['blah2', 1], ['blah3', 0], ['blah4', 0]]
     for i in range(1, 5):
         print(f'Loop {i}')
         format_question = Question(question, answers)

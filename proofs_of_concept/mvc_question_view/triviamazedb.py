@@ -114,4 +114,3 @@ if __name__ == "__main__":
         print(f'Object string:\n{question}\n')
         print(f'Question.formatted: {question.formatted}\n')
         print('*******************************\n\n')
-

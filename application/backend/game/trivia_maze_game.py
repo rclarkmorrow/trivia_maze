@@ -1,6 +1,6 @@
 # import the Maze class
-from player.player_factory import PlayerFactory
-from maze.maze import Maze
+from game.player.player_factory import PlayerFactory
+from game.maze.maze import Maze
 
 class TriviaMazeGame:
     """

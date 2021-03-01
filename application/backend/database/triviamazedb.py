@@ -1,6 +1,6 @@
 import sqlite3
 from sqlite3 import Error
-from question.question import Question
+from database.question.question import Question
 
 class TriviaMazeDB:
 
@@ -12,13 +12,13 @@ class TriviaMazeDB:
         """
         my_conn = None
         try:
-            my_conn = sqlite3.connect("TriviaDB.db")
+            my_conn = sqlite3.connect("./database/TriviaDB.db")
         except Error as e:
             print(e)
         return my_conn
 
     @staticmethod
-    def __get_random(db_connection, limit):
+    def __get_random(limit):
         """
           Method gets a random selection of questions from the trivia
           question database and returns them as a list of tuples.
@@ -27,6 +27,8 @@ class TriviaMazeDB:
           :param: limit
                   the maximum number of questions to return
         """
+
+        db_connection = TriviaMazeDB.create_connection()
         try:
             cur = db_connection.cursor()
 
@@ -56,26 +58,23 @@ class TriviaMazeDB:
             my_records = cur.fetchall()
             cur.close()
 
-            print(f'list {my_records}')
-
             return my_records
 
         except sqlite3.Error as error:
-            print('Failed to read data from sqlite table', error)
+            return False, f'Failed to read data from sqlite table, {error}'
 
         finally:
-            if conn:
-                conn.close()
-                print('The SQLite connection is closed')
+            if cur:
+                cur.close()
 
     @staticmethod
-    def get_question_list(connection, question_count):
+    def get_question_list(question_count):
         """
           Method creates a list of Question instances of a specified
           amount from a list of questions returned by a database call.
         """
         question_list = []
-        results = TriviaMazeDB.__get_random(connection, question_count)
+        results = TriviaMazeDB.__get_random(question_count)
         # Format question variables.
         current_question = results[0][0]
         answer_list = []
@@ -108,7 +107,7 @@ if __name__ == "__main__":
     # are returned and are correct.
     db = TriviaMazeDB
     conn = db.create_connection()
-    questions = db.get_question_list(conn, 3)
+    questions = db.get_question_list(3)
     print(f'TYPE {type(questions)}')
     print(f'LENGTH {len(questions)}')
     print(f'QUESTIONS {questions},\n\n')
@@ -118,4 +117,3 @@ if __name__ == "__main__":
         print(f'Object string:\n{question}\n')
         print(f'Question.formatted: {question.formatted}\n')
         print('*******************************\n\n')
-

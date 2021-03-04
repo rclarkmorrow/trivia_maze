@@ -5,11 +5,14 @@ class Player:
       related to a single game, but could have other details
       added and be written to a database to persist data
       over multiple sessions. A cumulative score, for example.
-      :param: name (takes the name of the player, and creates
-              player instance with that name.
     """
     def __init__(self, name):
+        """
+          Initializes the Player instance.
+          :param name: The player's name as a string.
+        """
         self.__name = name
+        # Could hold a cumulative high score across sessions.
         self.__points = 0
         self.__inventory = []
 

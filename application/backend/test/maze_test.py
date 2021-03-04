@@ -1,0 +1,1 @@
+# Placeholder for unittests of maze class

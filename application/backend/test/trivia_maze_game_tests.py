@@ -1,0 +1,1 @@
+# placeholder for unittest of the trivia maze game class

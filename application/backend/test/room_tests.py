@@ -1,0 +1,1 @@
+# placeholder for unittests of room and room factory classes

@@ -1,6 +1,13 @@
-# import the Maze class
-from game.player.player_factory import PlayerFactory
-from game.maze.maze import Maze
+# System imports
+import sys
+from pathlib import Path
+# Local imports
+file = Path(__file__).resolve()
+package_root_directory = file.parents[1]
+sys.path.append((str(package_root_directory)))
+from game.player.player_factory import PlayerFactory  # noqa
+from game.maze.maze import Maze  # noqa
+
 
 class TriviaMazeGame:
     """
@@ -13,12 +20,12 @@ class TriviaMazeGame:
                          of columns in the maze.
     """
     def __init__(self, player_name, row_count, col_count, questions):
-        self.__maze = Maze(row_count, col_count)  # Use a maze factory?
+        self.__maze = Maze(row_count, col_count)
         self.__player = PlayerFactory.create_player(player_name)
-        self.__rows = row_count
-        self.__columns = col_count
-        self.__entrance = self.__maze.entrance_pos  # List coordinates
-        self.__exit = self.__maze.exit_pos  # List coordinates
+        self.__row_count = row_count
+        self.__col_count = col_count
+        self.__entrance = self.__maze.entrance  # List coordinates
+        self.__exit = self.__maze.exit  # List coordinates
         self.__current_room = self.__entrance  # List coordinates
         self.__visited_rooms = []  # List of lists of coordinates
         self.__blocked_rooms = []  # List of lists of coordinates
@@ -36,12 +43,12 @@ class TriviaMazeGame:
         return self.__player
 
     @property
-    def rows(self):
+    def row_count(self):
         """ Return row count as property. """
         return self.__rows
 
     @property
-    def columns(self):
+    def col_count(self):
         """ Return column count as property. """
         return self.__columns
 

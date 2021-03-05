@@ -1,7 +1,13 @@
+# System imports
 from pickle import dump, load
-
-from game.trivia_maze_game import TriviaMazeGame
-from database.triviamazedb import TriviaMazeDB
+import sys
+from pathlib import Path
+# Local imports
+file = Path(__file__).resolve()
+package_root_directory = file.parents[0]
+sys.path.append((str(package_root_directory)))
+from game.trivia_maze_game import TriviaMazeGame  # noqa
+from database.triviamazedb import TriviaMazeDB  # noqa
 
 
 class TriviaGameInterface:
@@ -17,18 +23,22 @@ class TriviaGameInterface:
 
     @property
     def maze_entrance(self):
+        """ Returns maze entrance as a property. """
         return self.__game.entrance
 
     @property
     def maze_exit(self):
+        """ returns maze exit as a property. """
         return self.__game.exit
 
     @property
     def player_position(self):
+        """ Returns the player's position as a property. """
         return self.__game.current_room
 
     @property
     def blocked_rooms(self):
+        """ Returns a list of blocked rooms as a property. """
         return self.__game.blocked_rooms
 
     def get_question(self):
@@ -126,3 +136,6 @@ if __name__ == '__main__':
     load_player_name = test_interface.game.player.name
     print(f'Player name on load: {load_player_name}')
     print(f'Names match: {init_player_name == load_player_name}')
+    test_interface.game.block_room([2,2])
+    print(f'blocked rooms: {test_interface.game.blocked_rooms}')
+

@@ -24,7 +24,7 @@ class TriviaGameInterface:
     @property
     def maze_entrance(self):
         """ Returns maze entrance as a property. """
-        return self.__game.entrance
+        return self.__game.entrance  # [x, y]
 
     @property
     def maze_exit(self):

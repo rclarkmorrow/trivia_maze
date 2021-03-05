@@ -35,37 +35,37 @@ class TriviaMazeGame:
     @property
     def maze(self):
         """ Return maze as property. """
-        return self.__maze
+        return self.__maze  # Maze object
 
     @property
     def player(self):
         """ Return player as property. """
-        return self.__player
+        return self.__player  # Player object
 
     @property
     def row_count(self):
         """ Return row count as property. """
-        return self.__rows
+        return self.__rows  # Integer of row size
 
     @property
     def col_count(self):
         """ Return column count as property. """
-        return self.__columns
+        return self.__col_count  # Integer of column count
 
     @property
     def entrance(self):
         """ Return maze entrance coordinates as property. """
-        return self.__entrance
+        return self.__entrance  # Entrance as [x, y]
 
     @property
     def exit(self):
         """ Return maze exit coordinates as property. """
-        return self.__exit
+        return self.__exit  # Exit [x, y]
 
     @property
     def current_room(self):
         """ Return current room as property. """
-        return self.__current_room
+        return self.__current_room  # Room as [x, y]
 
     @current_room.setter
     def current_room(self, current_room):
@@ -73,19 +73,21 @@ class TriviaMazeGame:
         self.__current_room = current_room
 
     @property
-    def visited_roomes(self):
+    def visited_rooms(self):
         """ Return visited rooms as property. """
-        return self.__visited_rooms
+        return self.__visited_rooms  # List [[x, y], [x, y]]
 
     @property
     def blocked_rooms(self):
         """ Returns blocked rooms list as property. """
-        return self.__blocked_rooms
+        # NOTE: if we block doors instead of rooms, we may not use this
+        # or we may change it.
+        return self.__blocked_rooms  # List [[x, y], [x, y]]
 
     @property
     def cheat_mode(self):
         """ Return cheat most enabled status as property. """
-        return self.__cheat_mode
+        return self.__cheat_mode  # Boolean
 
     @cheat_mode.setter
     def cheat_mode(self, toggle: bool):
@@ -95,26 +97,29 @@ class TriviaMazeGame:
     @property
     def questions(self):
         """ Return questions list as property. """
-        return self.__questions
+        # NOTE: We may just want to load a new question ever time a
+        # player tries to move.
+        return self.__questions  # List [question object, question, object]
 
     @property
     def question(self):
         """ Pop a question from list and return it. """
+        # NOTE: See above
         return self.__questions.pop().formatted
 
-    def enter_room(self, room):
-        self.__current_room = room
-        self.__visited_rooms.append(room)
-        # Get details of room -- needs to be implemented
-        # with conditional based on details (e.g. does the player
-        # pick something up?)
-        # room_details = self.maze[room[0][1]].enter()
-        room_details = 'not implemented'
-        return room_details
-
-    def block_room(self, room):
-        """ Adds a room to a list of blocked rooms. """
-        self.__blocked_rooms.append(room)
+    # def enter_room(self, room):
+    #     self.__current_room = room
+    #     self.__visited_rooms.append(room)
+    #     # Get details of room -- needs to be implemented
+    #     # with conditional based on details (e.g. does the player
+    #     # pick something up?)
+    #     # room_details = self.maze[room[0][1]].enter()
+    #     room_details = 'not implemented'
+    #     return room_details
+    #
+    # def block_room(self, room):
+    #     """ Adds a room to a list of blocked rooms. """
+    #     self.__blocked_rooms.append(room)
 
 
 if __name__ == '__main__':

@@ -54,13 +54,13 @@ class Maze:
         """ Returns maze exit as property. """
         return self.__exit
 
-    def reach_exit(self, position):
+    def can_reach_exit(self, position):
         """
           Returns whether the exit is reachable as bool property.
           :param position: List of x,y indices for current position
           :Return: True if exit is reachable, False if not
         """
-        return self.__reach_exit(position)
+        return self.__verify_exit_path(position)
 
     def __maze_generator(self):
         """
@@ -78,7 +78,7 @@ class Maze:
                     new_row[col - 1].right = new_row[col]
                 if row > 0:
                     new_row[col].up = grid[row - 1][col]
-                    grid[row - 1][col] = new_row[col]
+                    grid[row - 1][col].down = new_row[col]
             grid.append(new_row)
         return grid
 
@@ -91,23 +91,25 @@ class Maze:
     def __random_entrance_exit(self):
         """ Returns random entrance and exit coordinates. """
         # Generate random entrance and exit coordinates.
-        rand_entrance = self.__get_random_indices()
-        rand_exit = self.__get_random_indices()
-        # Entrance and exit coordinates must be different.
-        if rand_entrance == rand_exit:
-            self.__random_entrance_exit()
-        # Make sure there is some distance between entrance and exit.
-        distance = (abs(rand_entrance[0] - rand_exit[0]) +
-                    abs(rand_entrance[1] - rand_exit[1]))
-        if distance < round(math.sqrt(self.size) - 1):
-            self.__random_entrance_exit()
-        # Set rooms to entrance and exit
-        self.__grid[rand_entrance[0]][rand_entrance[1]].is_entrance = True
-        self.__grid[rand_exit[0]][rand_exit[1]].is_exit = True
+        while True:
+            get_random = False
+            rand_entrance = self.__get_random_indices()
+            rand_exit = self.__get_random_indices()
+            # Entrance and exit coordinates must be different.
+            if rand_entrance == rand_exit:
+                get_random = True
+            # Make sure there is some distance between entrance and exit.
+            distance = (abs(rand_entrance[0] - rand_exit[0]) +
+                        abs(rand_entrance[1] - rand_exit[1]))
 
-        #self.__grid
+            if distance < round(math.sqrt(self.size) - 1):
+                get_random = True
+            if not get_random:
+                # Set rooms to entrance and exit and return
+                self.__grid[rand_entrance[0]][rand_entrance[1]].is_entrance = True
+                self.__grid[rand_exit[0]][rand_exit[1]].is_exit = True
 
-        return rand_entrance, rand_exit
+                return rand_entrance, rand_exit
 
     def __can_enter(self, position, visited=[]):
         """ Determine if the room is able to be entered. """
@@ -125,7 +127,7 @@ class Maze:
             return False
         return True
 
-    def __reach_exit(self, position=None):
+    def __verify_exit_path(self, position=None):
         """
           Method determines whether the exit to the maze can still be
           reached. Defaults to checking from the maze entrance.
@@ -150,15 +152,20 @@ class Maze:
             if [row, col] == self.__exit:
                 can_exit = True
             visited.append([row, col])
-            # Add valid surrounding rooms to search_queue: north/up
-            # east/right, south/down, west/left.
-            if self.__can_enter([row - 1, col], visited):
+            # Add valid surrounding rooms to search_queue: up, right,
+            # down, left.
+
+            if (self.__grid[row][col].up and
+                    self.__can_enter([row - 1, col], visited)):
                 search_queue.append([row - 1, col])
-            if self.__can_enter([row, col + 1], visited):
+            if (self.__grid[row][col].right and
+                    self.__can_enter([row, col + 1], visited)):
                 search_queue.append([row, col + 1],)
-            if self.__can_enter([row + 1, col], visited):
+            if (self.__grid[row][col].down and
+                    self.__can_enter([row + 1, col], visited)):
                 search_queue.append([row + 1, col],)
-            if self.__can_enter([row, col - 1], visited):
-                search_queue.append ([row, col - 1],)
+            if (self.__grid[row][col].left and
+                    self.__can_enter([row, col - 1], visited)):
+                search_queue.append([row, col - 1],)
 
         return can_exit

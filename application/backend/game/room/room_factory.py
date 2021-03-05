@@ -37,7 +37,7 @@ class RoomFactory:
         for index in position:
             if not isinstance(index, int):
                 return False
-        return Trueroom
+        return True
 
     @staticmethod
     def __verify_features(features):

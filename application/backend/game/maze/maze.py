@@ -1,15 +1,21 @@
 # Standard library imports
+import sys
+import math
+import random
+from pathlib import Path
 from collections import deque
-from random import sample
-from math import sqrt
-# Local package imports
-from game.room.room_factory import RoomFactory
+# Local imports
+file = Path(__file__).resolve()
+package_root_directory = file.parents[2]
+sys.path.append((str(package_root_directory)))
+from game.room.room_factory import RoomFactory  # noqa
 
 
 class Maze:
     """
       Class holds information about a grid of rooms and methods that
-      determine whether the
+      determine whether the maze can be traversed from a given position
+      to an exit.
     """
     def __init__(self, row_count: int, col_count: int):
         self.__row_count = row_count
@@ -64,25 +70,42 @@ class Maze:
         """
         grid = []
         for row in range(self.__row_count):
-            row_rooms = []
+            new_row = []
             for col in range(self.__col_count):
-                row_rooms.append(RoomFactory.create_room())
-            grid.append(row_rooms)
+                new_row.append(RoomFactory.create_room([row, col]))
+                if col > 0:
+                    new_row[col].left = new_row[col - 1]
+                    new_row[col - 1].right = new_row[col]
+                if row > 0:
+                    new_row[col].up = grid[row - 1][col]
+                    grid[row - 1][col] = new_row[col]
+            grid.append(new_row)
         return grid
+
+    def __get_random_indices(self):
+        """ Returns random indices based on grid size. """
+        rand_row = random.randint(0, self.__row_count - 1)
+        rand_col = random.randint(0, self.__col_count - 1)
+        return [rand_row, rand_col]
 
     def __random_entrance_exit(self):
         """ Returns random entrance and exit coordinates. """
         # Generate random entrance and exit coordinates.
-        rand_entrance = sample(range(0, self.size - 1), 2)
-        rand_exit = sample(range(0, self.size - 1), 2)
+        rand_entrance = self.__get_random_indices()
+        rand_exit = self.__get_random_indices()
         # Entrance and exit coordinates must be different.
         if rand_entrance == rand_exit:
             self.__random_entrance_exit()
         # Make sure there is some distance between entrance and exit.
         distance = (abs(rand_entrance[0] - rand_exit[0]) +
                     abs(rand_entrance[1] - rand_exit[1]))
-        if distance < round(sqrt(self.size) - 1):
+        if distance < round(math.sqrt(self.size) - 1):
             self.__random_entrance_exit()
+        # Set rooms to entrance and exit
+        self.__grid[rand_entrance[0]][rand_entrance[1]].is_entrance = True
+        self.__grid[rand_exit[0]][rand_exit[1]].is_exit = True
+
+        #self.__grid
 
         return rand_entrance, rand_exit
 

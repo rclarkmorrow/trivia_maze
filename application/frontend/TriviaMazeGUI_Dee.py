@@ -1,7 +1,12 @@
 # Credit: https://www.python-course.eu/tkinter_canvas.php
+# try:
+#     import Tkinter as tk     # Python 2.x
+# except ImportError:
+#     import tkinter as tk     # Python 3.x
 
-import tkinter as tk
-import random
+# import tkinter as tk
+from tkinter import *
+# import random
 
 FONT15 = ('Arial', 15)
 FONT32 = ('Arial', 32)
@@ -13,21 +18,25 @@ FGG = 'green'
 FGY = 'yellow'
 FGB = 'black'
 FGBL = 'blue'
-
-trivia_window = tk.Tk()
-trivia_window.title('WELCOME TO THE TRIVIA MAZE GAME')
-trivia_window_width = 1100
-trivia_window_height = 1100
-trivia_canvas = tk.Canvas(master=trivia_window,
-                          width=trivia_window_width,
-                          height=trivia_window_height,
-                          background=BGB)
-player_image = tk.PhotoImage(master=trivia_canvas, file="Rick.PNG")
-exit_image = tk.PhotoImage(master=trivia_canvas, file="ExitDoor.png")
+#
+# trivia_window = tk.Tk()
+# trivia_window.title('WELCOME TO THE TRIVIA MAZE GAME')
+# trivia_window_width = 1100
+# trivia_window_height = 1100
+# trivia_canvas = tk.Canvas(master=trivia_window,
+#                           width=trivia_window_width,
+#                           height=trivia_window_height,
+#                           background=BGB)
+#
+# player_image = tk.PhotoImage(master=trivia_canvas, file="Rick.PNG")
+# exit_image = tk.PhotoImage(master=trivia_canvas, file="ExitDoor.png")
 
 
 class TriviaMazeGUI:
-    def __init__(self, rows, cols):
+
+    def __init__(self, rows, cols, master=None):
+        self.master = master
+
         self.__rows = rows
         self.__cols = cols
         # room size
@@ -38,68 +47,88 @@ class TriviaMazeGUI:
         self.__row_blank_space = 30
         self.__col_blank_space = 30
 
+        # keep player location
+        self.__player_row = 0
+        self.__player_col = 0
+
+        self.trivia_canvas = Canvas(master, width=800, height=700)
+
+        self.player_image = PhotoImage(master=self.trivia_canvas, file="Rick.PNG")
+        self.exit_image = PhotoImage(master=self.trivia_canvas, file="ExitDoor.png")
+
+        self.create_maze()
+        self.create_player(0, 0)
+        self.create_exit(self.__rows-1, self.__cols - 1)
+
+        master.bind("<Left>", master.left)
+        master.bind("<Right>", master.right)
+        master.bind("<Up>", master.up)
+        master.bind("<Down>", master.down)
+
+        self.trivia_canvas.pack()
+
     def create_player(self, i, j):
         col = j * self.__col_width + self.__col_blank_space + self.__col_width / 5
         row = i * self.__row_height + self.__row_blank_space + self.__row_height / 8
-        return trivia_canvas.create_image(col,
-                                          row,
-                                          anchor=tk.NW,
-                                          image=player_image)
+        return self.trivia_canvas.create_image(col,
+                                               row,
+                                               anchor=NW,
+                                               image=self.player_image)
 
     def create_exit(self, i, j):
         col = j * self.__col_width + self.__col_blank_space + self.__col_width / 12
         row = i * self.__row_height + self.__row_blank_space + self.__row_height / 10
-        return trivia_canvas.create_image(col,
-                                          row,
-                                          anchor=tk.NW,
-                                          image=exit_image)
+        return self.trivia_canvas.create_image(col,
+                                               row,
+                                               anchor=NW,
+                                               image=self.exit_image)
 
     def create_maze(self):
 
         for row in range(0, self.__rows):
             for col in range(0, self.__cols):
 
-                trivia_canvas.create_rectangle(col * self.__col_width + self.__col_blank_space,
+                self.trivia_canvas.create_rectangle(col * self.__col_width + self.__col_blank_space,
                                                row * self.__row_height + self.__row_blank_space,
                                                (col+1) * self.__col_width,
                                                (row+1) * self.__row_height,
                                                fill="yellow")
-            trivia_canvas.pack()
-            trivia_canvas.update()
+            self.trivia_canvas.pack()
+            self.trivia_canvas.update()
 
-        # randomly generate Entrance(i) and Exit(o) for the maze
-        en_row = random.randint(0, self.__rows - 1)
-        en_col = random.randint(0, self.__cols - 1)
-        ex_row = random.randint(0, self.__rows - 1)
-        ex_col = random.randint(0, self.__cols - 1)
-        # check if the entrance row = exit row, 'Yes" assign entrance row = 0, exit row = row - 1
-        if en_row == ex_row:
-            en_row = 0
-            ex_row = self.__rows - 1
+    def movement(self):
+        self.trivia_canvas.move((self.player_image, self.__player_row, self.__player_col))
+        self.trivia_canvas.after(100, self.movement)
 
-        self.create_player(en_row, en_col)
-        self.create_exit(ex_row, ex_col)
+    def right(self, event):
+        self.__player_col += 1
+        self.trivia_canvas.move(self.player_image, self.__player_row, self.__player_col)
 
-        trivia_window.mainloop()
+    def left(self, event):
+        self.__player_col -= 1
+        self.trivia_canvas.move(self.player_image, self.__player_row, self.__player_col)
 
-    def create_content(self, i, j, content):
-        """
-        Create content such as Entrance, Exit, Player etc at a specified Index of the room.
-        """
-        trivia_canvas.create_text(j * self.__col_width + self.__col_blank_space + self.__col_width / 3,
-                                  i * self.__row_height + self.__row_blank_space + self.__row_height / 3,
-                                  text=content,
-                                  font=FONT15,
-                                  fill=FGB)
+    def up(self, event):
+        self.__player_row += 1
+        self.trivia_canvas.move(self.player_image, self.__player_row, self.__player_col)
 
-    def main(self):
-        maze = TriviaMazeGUI(4, 5)
-        maze.create_maze()
+    def down(self, event):
+        self.__player_row -= 1
+        self.trivia_canvas.move(self.player_image, self.__player_row, self.__player_col)
 
 
 if __name__ == "__main__":
-    trivia = TriviaMazeGUI(4, 5)
-    trivia.main()
+    master = Tk()
+    trivia = TriviaMazeGUI(4, 5, master)
+
+    master.bind("<Left>", trivia.left)
+    master.bind("<Right>", trivia.right)
+    master.bind("<Up>", trivia.up)
+    master.bind("<Down>", trivia.down)
+
+    mainloop()
+
+
 
 
 

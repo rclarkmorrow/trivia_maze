@@ -27,6 +27,24 @@ class MazeTests(unittest.TestCase):
         for number in maze.exit:
             self.assertTrue(isinstance(number, int))
 
+    def test_create_maze_non_integer(self):
+        """ Test create maze gets type error with integer. """
+        try:
+            _ = Maze('I am not an integer', 4)
+            self.assertEqual(True, False, 'should not have got here: '
+                             'maze created with non-integer index.')
+        except TypeError:
+            self.assertEqual(True, True)
+
+    def test_create_maze_with_float(self):
+        """ Test create maze gets type error with float. """
+        try:
+            _ = Maze('I am not an integer', 4)
+            self.assertEqual(True, False, 'should not have got here: '
+                             'maze created with float index.')
+        except TypeError:
+            self.assertEqual(True, True)
+
 
 if __name__ == '__main__':
     unittest.main()

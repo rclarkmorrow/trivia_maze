@@ -1,6 +1,12 @@
 import sqlite3
+import sys
+from pathlib import Path
 from sqlite3 import Error
-from database.question.question import Question
+# Local imports
+file = Path(__file__).resolve()
+package_root_directory = file.parents[1]
+sys.path.append((str(package_root_directory)))
+from database.question.question import Question  # noqa
 
 class TriviaMazeDB:
 

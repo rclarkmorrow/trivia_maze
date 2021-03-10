@@ -5,7 +5,7 @@ from pathlib import Path
 file = Path(__file__).resolve()
 package_root_directory = file.parents[2]
 sys.path.append((str(package_root_directory)))
-from game.room.room import Room  # noqa
+from game.room.room import Room, Feature  # noqa
 
 
 class RoomFactory:
@@ -13,11 +13,17 @@ class RoomFactory:
      This class creates instances of a room object.
     """
     # Error messages
-    POSITION_ERROR = 'Position must be a list of [x, y] indices as integers.'
-    FEATURES_ERROR = 'Features must be a list of Feature instances.'
+    POSITION_ERROR = ('Position must be None or a list of [x, y] '
+                      'indices as integers.')
+    FEATURES_ERROR = 'Features must be None or a list of Feature instances.'
 
     @staticmethod
     def create_room(position=None, features=None):
+        """
+          Creates a room instance.
+          :param position: List of [x, y] indices as integers.
+          :param features: List of features instances.
+        """
         if not RoomFactory.__verify_position(position):
             raise TypeError(RoomFactory.POSITION_ERROR)
         if not RoomFactory.__verify_features(features):
@@ -26,6 +32,7 @@ class RoomFactory:
 
     @staticmethod
     def __verify_position(position):
+        """ Verifies a valid position. """
         # Return true if none.
         if not position:
             return True
@@ -41,17 +48,12 @@ class RoomFactory:
 
     @staticmethod
     def __verify_features(features):
+        """ Verifies valid list of Features. """
         if not features:
             return True
-        # Update failure conditionals when features are implemented.
-        else:
+        if not isinstance(features, list):
             return False
-
-
-if __name__ == '__main__':
-    """ Basic smoke tests. """
-    room = RoomFactory.create_room()
-    print(room)
-    room = RoomFactory.create_room([2, 3])
-    print(type(room))
-    print('\n'.join(room.draw_room()))
+        for feature in features:
+            if not isinstance(feature, Feature):
+                return False
+        return True

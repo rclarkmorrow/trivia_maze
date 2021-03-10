@@ -1,3 +1,9 @@
+class Feature:
+    """ This is an empty class meant to hold room features in the future. """
+    def __init__(self):
+        self.__info = 'not implemented'
+
+
 class Room:
     """
       This class
@@ -61,7 +67,7 @@ class Room:
           Sets up room link.
           :param room: None or Room instance.
         """
-        if room and type(room) != Room:
+        if room and not isinstance(room, Room):
             raise TypeError('Type must be Room instance or None.')
         self.__up = room
 
@@ -76,7 +82,7 @@ class Room:
           Sets right room link.
           :param room: None or Room instance.
         """
-        if room and type(room) != Room:
+        if room and not isinstance(room, Room):
             raise TypeError('Type must be Room instance or None.')
         self.__right = room
 
@@ -91,7 +97,7 @@ class Room:
           Sets down room link.
           :param room: None or Room instance.
         """
-        if room and type(room) != Room:
+        if room and not isinstance(room, Room):
             raise TypeError('Type must be Room instance or None.')
         self.__down = room
 
@@ -106,7 +112,7 @@ class Room:
           Sets left room link.
           :param room: None or Room instance.
         """
-        if room and type(room) != Room:
+        if room and not isinstance(room, Room):
             raise TypeError('Type must be Room instance or None.')
         self.__left = room
 
@@ -132,44 +138,49 @@ class Room:
 
     def add_feature(self, feature):
         """ Adds new features to the room's feature list. """
+        if not isinstance(feature, Feature):
+            raise TypeError('Type must be Feature instance')
         self.__features.append(feature)
 
     def remove_feature(self, feature):
         """ Removes a feature from a room's feature list. """
+        if not isinstance(feature, Feature):
+            raise TypeError('Type must be Feature instance')
         self.__features.remove(feature)
 
-    def draw_room(self):
-        """
-          Method returns an ASCII representation of the room.
-          :Return: Tuple containing top, middle, and bottom strings
-                   representing the room.
-        """
-        if self.__up:
-            top = '*———*'
-        else:
-            top = '*****'
-        if self.__left:
-            middle = '|'
-        else:
-            middle = '*'
-        if self.__is_entrance:
-            middle += 'N'
-        elif self.__is_exit:
-            middle += 'X'
-        elif self.__features:
-            middle += ' F '
-        else:
-            middle += '   '
-        if self.__right:
-            middle += '|'
-        else:
-            middle += '*'
-        if self.__down:
-            bottom = '*———*'
-        else:
-            bottom = '*****'
-
-        return top, middle, bottom
+    # NOTE: enable this for a CLI version of the game.
+    # def draw_room(self):
+    #     """
+    #       Method returns an ASCII representation of the room.
+    #       :Return: Tuple containing top, middle, and bottom strings
+    #                representing the room.
+    #     """
+    #     if self.__up:
+    #         top = '*———*'
+    #     else:
+    #         top = '*****'
+    #     if self.__left:
+    #         middle = '|'
+    #     else:
+    #         middle = '*'
+    #     if self.__is_entrance:
+    #         middle += 'N'
+    #     elif self.__is_exit:
+    #         middle += 'X'
+    #     elif self.__features:
+    #         middle += ' F '
+    #     else:
+    #         middle += '   '
+    #     if self.__right:
+    #         middle += '|'
+    #     else:
+    #         middle += '*'
+    #     if self.__down:
+    #         bottom = '*———*'
+    #     else:
+    #         bottom = '*****'
+    #
+    #     return top, middle, bottom
 
     def __str__(self):
         """

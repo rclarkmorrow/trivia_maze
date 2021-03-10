@@ -31,7 +31,7 @@ class Player:
         """ Returns inventory as property. """
         return self.__inventory
 
-    def adjust_points(self, points):
+    def adjust_points(self, points: int):
         """
           Adjusts points to the player's point total
           based on the parameter provided to a minimum

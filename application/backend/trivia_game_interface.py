@@ -41,40 +41,34 @@ class TriviaGameInterface:
         """ Returns a list of blocked rooms as a property. """
         return self.__game.blocked_rooms
 
+    @property
+    def visited_rooms(self):
+        return self.__game.visited_rooms
+
     def get_question(self):
-        """
-          Tries to get a question from the game object,
-          returns True with question if successful, False
-          with error message if not.
-          :Return: True, question
-          :Return: False, error
-        """
-        question = self.__game.question
-        if question:
-            return True, question
-        else:
-            return False, 'unable to retrieve question'
+        """ Gets a question from the game object. """
+        return self.__game.question
 
-    def enter_room(self, room):
-        success, payload = self.game.enter_room(room)
-        if success:
-            return success, payload
-        else:
-            return success, f'unable to enter room: {room}'
-
+    def visit_room(self, room):
+        """
+          Requests a room to be visited
+          :Param room: a list of room coordinates, e.g [1, 2]
+        """
+        row, col = room
+        self.__game.maze.grid[row][col].is_visited = True
 
     def block_room(self, room):
         """
           Requests a room to be blocked
           :Param room: a list of room coordinates, e.g [1, 2]
-          :Return: True, room if successful.
-          :Return: False, room if unsuccessful.
         """
-        success = self.__game.block_room(room)
-        if success:
-            return success, f'successfully blocked room: {room}'
-        else:
-            return success, f'unable to block room: {room}'
+        row, col = room
+        self.__game.maze.grid[row][col].is_blocked = True
+
+    """
+      NOTE: methods to block doors between rooms, and open
+            doors between rooms need to be created.
+    """
 
     def save(self, file_name):
         """ Returns results of attempt to save file. """
@@ -136,6 +130,6 @@ if __name__ == '__main__':
     load_player_name = test_interface.game.player.name
     print(f'Player name on load: {load_player_name}')
     print(f'Names match: {init_player_name == load_player_name}')
-    test_interface.game.block_room([2,2])
+    # test_interface.game.block_room([2,2])
     print(f'blocked rooms: {test_interface.game.blocked_rooms}')
 

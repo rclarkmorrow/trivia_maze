@@ -18,6 +18,7 @@ class TriviaMazeGame:
                          of rows in the maze.
        :Param col_count: An integer representing the number
                          of columns in the maze.
+       :Param questions: A list of question instances.
     """
     def __init__(self, player_name, row_count, col_count, questions):
         self.__maze = Maze(row_count, col_count)
@@ -30,7 +31,7 @@ class TriviaMazeGame:
         self.__visited_rooms = []  # List of lists of coordinates
         self.__blocked_rooms = []  # List of lists of coordinates
         self.__cheat_mode = False
-        self.__questions = questions
+        self.__questions = questions  # List of
 
     @property
     def maze(self):
@@ -70,7 +71,7 @@ class TriviaMazeGame:
     @current_room.setter
     def current_room(self, current_room):
         """ Set the current room to a new value. """
-        self.__current_room = current_room
+        self.__current_room = current_room  # Set current as [x, y]
 
     @property
     def visited_rooms(self):
@@ -106,20 +107,6 @@ class TriviaMazeGame:
         """ Pop a question from list and return it. """
         # NOTE: See above
         return self.__questions.pop().formatted
-
-    # def enter_room(self, room):
-    #     self.__current_room = room
-    #     self.__visited_rooms.append(room)
-    #     # Get details of room -- needs to be implemented
-    #     # with conditional based on details (e.g. does the player
-    #     # pick something up?)
-    #     # room_details = self.maze[room[0][1]].enter()
-    #     room_details = 'not implemented'
-    #     return room_details
-    #
-    # def block_room(self, room):
-    #     """ Adds a room to a list of blocked rooms. """
-    #     self.__blocked_rooms.append(room)
 
 
 if __name__ == '__main__':

@@ -16,8 +16,15 @@ class Maze:
       Class holds information about a grid of rooms and methods that
       determine whether the maze can be traversed from a given position
       to an exit.
+      :param row_count: number of rows as int > 1
+      :param col_count: number of columns as int > 1
     """
     def __init__(self, row_count: int, col_count: int):
+        if row_count < 2:
+            raise ValueError('Row count must be an integer greater than zero')
+        if col_count < 2:
+            raise ValueError('Col count must be an integer greater than zero')
+
         self.__row_count = row_count
         self.__col_count = col_count
         self.__grid = self.__maze_generator()  # 2D List of Room instances.
@@ -111,18 +118,18 @@ class Maze:
 
                 return rand_entrance, rand_exit
 
-    def __can_enter(self, position, visited=[]):
+    def __can_enter(self, position, traversed):
         """ Determine if the room is able to be entered. """
         row, col = position
-        # If room has been visited in search, is out of index
-        # range or is blocked, return false. Otherwise return
-        # True.
-        if position in visited:
-            return False
+        # Check index values
         if row < 0 or col < 0:
             return False
         if row >= self.__row_count or col >= self.__col_count:
             return False
+        # Check if already traversed
+        if traversed[row][col]:
+            return False
+        # Check if blocked
         if self.__grid[row][col].blocked:
             return False
         return True
@@ -142,30 +149,39 @@ class Maze:
         # Create search queue, traversed list and return condition.
         search_queue = deque()
         search_queue.append(position)
-        visited = []
+        traversed = [[False for _ in range(self.__col_count)]
+                     for _ in range(self.__row_count)]
         can_exit = False
+
+        # Add first position to traversed
+        row, col = position
+        traversed[row][col] = True
+
+        count = 0
         # Loop through the queue, adding new positions.
         while search_queue:
             # Grab first position.
+            count += 1
             row, col = search_queue.popleft()
             # Check if room is exit.
             if [row, col] == self.__exit:
                 can_exit = True
-            visited.append([row, col])
-            # Add valid surrounding rooms to search_queue: up, right,
-            # down, left.
-
+                break
+            # Add positions to queue if valid.
             if (self.__grid[row][col].up and
-                    self.__can_enter([row - 1, col], visited)):
+                    self.__can_enter([row - 1, col], traversed)):
                 search_queue.append([row - 1, col])
+                traversed[row - 1][col] = True
             if (self.__grid[row][col].right and
-                    self.__can_enter([row, col + 1], visited)):
-                search_queue.append([row, col + 1],)
+                    self.__can_enter([row, col + 1], traversed)):
+                search_queue.append([row, col + 1])
+                traversed[row][col + 1] = True
             if (self.__grid[row][col].down and
-                    self.__can_enter([row + 1, col], visited)):
-                search_queue.append([row + 1, col],)
+                    self.__can_enter([row + 1, col], traversed)):
+                search_queue.append([row + 1, col])
+                traversed[row + 1][col] = True
             if (self.__grid[row][col].left and
-                    self.__can_enter([row, col - 1], visited)):
-                search_queue.append([row, col - 1],)
-
+                    self.__can_enter([row, col - 1], traversed)):
+                search_queue.append([row, col - 1])
+                traversed[row][col - 1] = True
         return can_exit

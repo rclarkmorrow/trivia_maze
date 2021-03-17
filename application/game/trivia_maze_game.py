@@ -18,20 +18,21 @@ class TriviaMazeGame:
                          of rows in the maze.
        :Param col_count: An integer representing the number
                          of columns in the maze.
-       :Param questions: A list of question instances.
     """
     def __init__(self, player_name, row_count, col_count, questions):
         self.__maze = Maze(row_count, col_count)
         self.__player = PlayerFactory.create_player(player_name)
         self.__row_count = row_count
         self.__col_count = col_count
+        self.__questions = questions
+        self.__current_question = None  # Question
         self.__entrance = self.__maze.entrance  # List coordinates
         self.__exit = self.__maze.exit  # List coordinates
-        self.__current_room = self.__entrance  # List coordinates
+        self.__player_position = self.__entrance  # List coordinates
         self.__visited_rooms = []  # List of lists of coordinates
         self.__blocked_rooms = []  # List of lists of coordinates
         self.__cheat_mode = False
-        self.__questions = questions  # List of
+
 
     @property
     def maze(self):
@@ -46,7 +47,7 @@ class TriviaMazeGame:
     @property
     def row_count(self):
         """ Return row count as property. """
-        return self.__rows  # Integer of row size
+        return self.__row_count  # Integer of row size
 
     @property
     def col_count(self):
@@ -64,14 +65,14 @@ class TriviaMazeGame:
         return self.__exit  # Exit [x, y]
 
     @property
-    def current_room(self):
+    def player_position(self):
         """ Return current room as property. """
-        return self.__current_room  # Room as [x, y]
+        return self.__player_position  # Room as [x, y]
 
-    @current_room.setter
-    def current_room(self, current_room):
+    @player_position.setter
+    def player_position(self, player_position):
         """ Set the current room to a new value. """
-        self.__current_room = current_room  # Set current as [x, y]
+        self.__player_position = player_position
 
     @property
     def visited_rooms(self):
@@ -103,10 +104,21 @@ class TriviaMazeGame:
         return self.__questions  # List [question object, question, object]
 
     @property
+    def current_question(self):
+        if self.__current_question:
+            return self.__current_question.formatted
+        else:
+            return None
+
+    @property
     def question(self):
         """ Pop a question from list and return it. """
         # NOTE: See above
-        return self.__questions.pop().formatted
+        if len(self.__questions) > 0:
+            self.__current_question = self.__questions.pop()
+            return self.__current_question.formatted
+        else:
+            return None
 
 
 if __name__ == '__main__':

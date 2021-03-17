@@ -13,6 +13,12 @@ class Question:
     """
 
     def __init__(self, question, answers):
+        if not isinstance(question, str):
+            raise TypeError('Question must be of type string.')
+        if not Question.__verify_answers(answers):
+            raise TypeError('Answers must be a list that is a string '
+                            'followed by an int of 1 or 0: '
+                            '[\'answer text\', 0]')
         self.__question = question
         self.__answers = answers
         self.__formatted = self.__format_question()
@@ -61,13 +67,27 @@ class Question:
 
         return question_dictionary
 
+    @staticmethod
+    def __verify_answers(answers):
+        if not isinstance(answers, list):
+            return False
+        for answer in answers:
+            if not isinstance(answer, list):
+                return False
+            if len(answer) > 2:
+                return False
+            if not isinstance(answer[0], str):
+                return False
+            if answer[1] != 1 and answer[1] != 0:
+
+                return False
+        return True
+
 
 if __name__ == '__main__':
     # Basic smoke test confirms a question can be created and that the
     # order of answers are randomized.
-    question = 'What is your quest?'
-    answers = [['Green, no blue', 0], ['To seek the holy grail.', 1],
-               ['I don\'t know that', 0], ['African or English swallow?', 0]]
+
     for i in range(1, 5):
         print(f'Loop {i}')
         format_question = Question(question, answers)

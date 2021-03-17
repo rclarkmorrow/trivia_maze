@@ -1,5 +1,5 @@
 # System imports
-from pickle import dump, load
+import pickle
 import sys
 from pathlib import Path
 # Local imports
@@ -32,43 +32,36 @@ class TriviaGameInterface:
         return self.__game.exit
 
     @property
+    def current_room(self):
+        """ returns the room object at player position. """
+        row, col = self.__game.player_position
+        return self.__game.maze.grid[row][col]
+
+    @property
     def player_position(self):
         """ Returns the player's position as a property. """
-        return self.__game.current_room
+        return self.__game.player_position
+
+    @player_position.setter
+    def player_position(self, player_position):
+        self.__game.player_position = player_position
 
     @property
-    def blocked_rooms(self):
-        """ Returns a list of blocked rooms as a property. """
-        return self.__game.blocked_rooms
+    def current_question(self):
+        return self.__game.current_question
 
-    @property
-    def visited_rooms(self):
-        return self.__game.visited_rooms
+    def check_path_to_exit(self):
+        return self.__game.maze.can_reach_exit(self.__game.player_position)
 
     def get_question(self):
-        """ Gets a question from the game object. """
+        """
+          Tries to get a question from the game object,
+          returns True with question if successful, False
+          with error message if not.
+          :Return: True, question
+          :Return: False, error
+        """
         return self.__game.question
-
-    def visit_room(self, room):
-        """
-          Requests a room to be visited
-          :Param room: a list of room coordinates, e.g [1, 2]
-        """
-        row, col = room
-        self.__game.maze.grid[row][col].is_visited = True
-
-    def block_room(self, room):
-        """
-          Requests a room to be blocked
-          :Param room: a list of room coordinates, e.g [1, 2]
-        """
-        row, col = room
-        self.__game.maze.grid[row][col].is_blocked = True
-
-    """
-      NOTE: methods to block doors between rooms, and open
-            doors between rooms need to be created.
-    """
 
     def save(self, file_name):
         """ Returns results of attempt to save file. """
@@ -91,7 +84,7 @@ class TriviaGameInterface:
         """
         try:
             with open(file_name, 'wb') as file:
-                dump(self.__game, file, protocol=3)
+                pickle.dump(self.__game, file, protocol=3)
                 return True, 'game successfully saved.'
         except Exception as error:
             return False, f'game not saved: {error}.'
@@ -108,7 +101,7 @@ class TriviaGameInterface:
         try:
             # Load and unpickle using with so the file is closed for us.
             with open(file_name, 'rb') as file:
-                loaded_game = load(file)
+                loaded_game = pickle.load(file)
                 print(f'Loaded: {loaded_game}')
                 return True, loaded_game
 

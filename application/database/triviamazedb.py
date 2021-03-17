@@ -8,6 +8,7 @@ package_root_directory = file.parents[1]
 sys.path.append((str(package_root_directory)))
 from database.question.question import Question  # noqa
 
+
 class TriviaMazeDB:
 
     @staticmethod
